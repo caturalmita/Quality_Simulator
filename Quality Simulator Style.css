@@ -1,0 +1,120 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #1f1f1f;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.window{
+    width: 700px;
+    background-color: #1f1f1f;
+    border: 3px solid lightgrey;
+    padding: 47px 5px 5px;
+    margin: 10px;
+}
+
+.window img{
+    display: block;
+    margin: auto;
+}
+
+.window h1{
+    color: #cdb18c;
+    text-align: center;
+}
+
+.window h2{
+    color: #ffffff;
+    text-align: center;
+}
+
+.window .progressbar{
+    display: grid;
+    grid-template-columns: repeat(2,150px);
+    grid-gap: 10px;
+}
+
+.window h3{
+    color: white;
+    text-align: right;
+    font-size: 30px;
+    margin-top: 13px;
+}
+
+.window progress{
+    width: 400px;
+    height: 30px;
+    border-radius: 1px;
+    margin: 20px 10px;
+}
+
+#progress{
+    appearance: none;
+}
+
+#progress::-webkit-progress-bar{
+    background: #1f1f1f;
+}
+
+#progress::-webkit-progress-value{
+    background: #ffffff;
+}
+
+.upgrade{
+    width: 700px;
+    background-color: #1f1f1f;
+    padding: 20px 10px 10px;
+    margin: 20px;
+    border: 3px solid lightgrey;
+}
+
+.upgrade h2{
+    color: #ffffff;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.upgrade form .upgrade_button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.upgrade form .upgrade_button input[type = "button"]{
+    margin: 5px 10px 10px;
+    padding: 15px;
+    border-radius: 1px;
+    font-size: 20px;
+    color: white;
+    background-color: #33414e;
+    border: 1px solid white;
+    cursor: pointer;
+}
+
+.upgrade form .upgrade_button input:hover{
+    box-shadow: 1px 1px 2px #333;
+    background-color: white;
+    color: #333333;
+}
+
+.upgrade form .result{
+    display: grid;
+    grid-auto-rows: 50px;
+    grid-gap: 5px;
+    margin-top: 20px;
+}
+
+.upgrade form input[type = "text"]{
+    font-size: 15px;
+    padding: 0 10px;
+}

@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>로스트아크 품질 시뮬레이터</title>
+    <link rel = "Stylesheet" href = "Quality%20Simulator%20Style.css">
+</head>
+<body>
+
+    <div class = "window">
+        <img src = "Weapon%20icon.jpg" alt = "Image ERROR">
+        <br>
+        <h1>+21 피어난 악몽의 공명 마법 덱</h1>
+        <br><br><br>
+        <h2>현재 품질</h2>
+        <div class = "progressbar">
+            <h3><span class = "QualityNum">??</span></h3>
+            <progress value = "0" max = "100" id = "quality_bar"></progress>
+        </div>
+    </div>
+
+    <div class = "upgrade">
+        <form name = "upgrade tool">
+
+            <h2><span class = "Probability">업그레이드 확률: %</span></h2>
+            <div class = "upgrade_button">
+                <input type = "button" value = "품질 설정" onclick = "FirstWeapon()">
+                <input type = "button" value = "분해 후 제작" onclick = "MakeWeapon()">
+                <input type = "button" value = "품질 업그레이드" onclick = "UpgradeWeapon()">
+                <input type = "button" value = "리셋" onclick = "Reset()">
+            </div>
+
+            <div class = "result">
+                <input type = "text" name = "try" value = "시도횟수: 0회" readonly>
+                <input type = "text" name = "stone" value = "소모한 혼돌의 돌 개수: 0개" readonly>
+                <input type = "text" name = "upgrade_cost" value = "업그레이드 비용: 0골드" readonly>
+                <input type = "text" name = "make_cost" value = "분해 후 제작 비용: 0골드" readonly>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        let QualityProbability = [
+            [
+                "0",
+                "100"
+            ],
+            [
+                "1",
+                "97.71"
+            ],
+            [
+                "2",
+                "95.42"
+            ],
+            [
+                "3",
+                "93.13"
+            ],
+            [
+                "4",
+                "90.84"
+            ],
+            [
+                "5",
+                "88.55"
+            ],
+            [
+                "6",
+                "86.26"
+            ],
+            [
+                "7",
+                "83.97"
+            ],
+            [
+                "8",
+                "81.68"
+            ],
+            [
+                "9",
+                "79.39"
+            ],
+            [
+                "10",
+                "77.1"
+            ],
+            [
+                "11",
+                "74.81"
+            ],
+            [
+                "12",
+                "72.67"
+            ],
+            [
+                "13",
+                "70.53"
+            ],
+            [
+                "14",
+                "68.39"
+            ],
+            [
+                "15",
+                "66.25"
+            ],
+            [
+                "16",
+                "64.11"
+            ],
+            [
+                "17",
+                "61.97"
+            ],
+            [
+                "18",
+                "59.82"
+            ],
+            [
+                "19",
+                "57.68"
+            ],
+            [
+                "20",
+                "55.54"
+            ],
+            [
+                "21",
+                "53.4"
+            ],
+            [
+                "22",
+                "51.63"
+            ],
+            [
+                "23",
+                "49.87"
+            ],
+            [
+                "24",
+                "48.11"
+            ],
+            [
+                "25",
+                "46.34"
+            ],
+            [
+                "26",
+                "44.58"
+            ],
+            [
+                "27",
+                "42.82"
+            ],
+            [
+                "28",
+                "41.05"
+            ],
+            [
+                "29",
+                "39.29"
+            ],
+            [
+                "30",
+                "37.53"
+            ],
+            [
+                "31",
+                "35.77"
+            ],
+            [
+                "32",
+                "34.38"
+            ],
+            [
+                "33",
+                "33"
+            ],
+            [
+                "34",
+                "31.61"
+            ],
+            [
+                "35",
+                "30.23"
+            ],
+            [
+                "36",
+                "28.84"
+            ],
+            [
+                "37",
+                "27.46"
+            ],
+            [
+                "38",
+                "26.07"
+            ],
+            [
+                "39",
+                "24.69"
+            ],
+            [
+                "40",
+                "23.3"
+            ],
+            [
+                "41",
+                "21.91"
+            ],
+            [
+                "42",
+                "20.9"
+            ],
+            [
+                "43",
+                "19.9"
+            ],
+            [
+                "44",
+                "18.89"
+            ],
+            [
+                "45",
+                "17.88"
+            ],
+            [
+                "46",
+                "16.87"
+            ],
+            [
+                "47",
+                "15.87"
+            ],
+            [
+                "48",
+                "14.86"
+            ],
+            [
+                "49",
+                "13.85"
+            ],
+            [
+                "50",
+                "12.85"
+            ],
+            [
+                "51",
+                "11.84"
+            ],
+            [
+                "52",
+                "11.21"
+            ],
+            [
+                "53",
+                "10.58"
+            ],
+            [
+                "54",
+                "9.95"
+            ],
+            [
+                "55",
+                "9.32"
+            ],
+            [
+                "56",
+                "8.69"
+            ],
+            [
+                "57",
+                "8.06"
+            ],
+            [
+                "58",
+                "7.43"
+            ],
+            [
+                "59",
+                "6.8"
+            ],
+            [
+                "60",
+                "6.17"
+            ],
+            [
+                "61",
+                "5.54"
+            ],
+            [
+                "62",
+                "5.29"
+            ],
+            [
+                "63",
+                "5.04"
+            ],
+            [
+                "64",
+                "4.79"
+            ],
+            [
+                "65",
+                "4.53"
+            ],
+            [
+                "66",
+                "4.28"
+            ],
+            [
+                "67",
+                "4.03"
+            ],
+            [
+                "68",
+                "3.78"
+            ],
+            [
+                "69",
+                "3.53"
+            ],
+            [
+                "70",
+                "3.27"
+            ],
+            [
+                "71",
+                "3.02"
+            ],
+            [
+                "72",
+                "2.9"
+            ],
+            [
+                "73",
+                "27.7"
+            ],
+            [
+                "74",
+                "2.64"
+            ],
+            [
+                "75",
+                "2.51"
+            ],
+            [
+                "76",
+                "2.39"
+            ],
+            [
+                "77",
+                "2.27"
+            ],
+            [
+                "78",
+                "2.14"
+            ],
+            [
+                "79",
+                "2.02"
+            ],
+            [
+                "80",
+                "1.89"
+            ],
+            [
+                "81",
+                "1.76"
+            ],
+            [
+                "82",
+                "1.66"
+            ],
+            [
+                "83",
+                "1.56"
+            ],
+            [
+                "84",
+                "1.46"
+            ],
+            [
+                "85",
+                "1.36"
+            ],
+            [
+                "86",
+                "1.26"
+            ],
+            [
+                "87",
+                "1.16"
+            ],
+            [
+                "88",
+                "1.06"
+            ],
+            [
+                "89",
+                "0.96"
+            ],
+            [
+                "90",
+                "0.86"
+            ],
+            [
+                "91",
+                "0.76"
+            ],
+            [
+                "92",
+                "0.68"
+            ],
+            [
+                "93",
+                "0.6"
+            ],
+            [
+                "94",
+                "0.53"
+            ],
+            [
+                "95",
+                "0.46"
+            ],
+            [
+                "96",
+                "0.38"
+            ],
+            [
+                "97",
+                "0.3"
+            ],
+            [
+                "98",
+                "0.23"
+            ],
+            [
+                "99",
+                "0.15"
+            ],
+            [
+                "100",
+                "0.08"
+            ],
+            [
+                "101",
+                "0"
+            ]
+        ];
+
+        let TryNum = 0;
+        let TryStone = 0;
+        let UpgradeCost = 0;
+        let MakeCost = 0;
+        let TRY = document.getElementsByName("try")[0];
+        let TrySTONE = document.getElementsByName("stone")[0];
+        let UPGRADE_COST = document.getElementsByName("upgrade_cost")[0];
+        let MAKE_COST = document.getElementsByName("make_cost")[0];
+
+        let QualityValue = document.getElementById("quality_bar");
+        let QualityNum = document.getElementsByClassName("QualityNum")[0];
+
+
+        function TryNumber(){
+            TRY.value = "시도횟수: " + TryNum.toLocaleString('ko-KR') + "회";
+        }
+
+        function TryStoneNumber(){
+            TrySTONE.value = "소모한 혼돌의 돌 개수: " + TryStone.toLocaleString('ko-KR') + "개";
+        }
+
+        function UpgradeCostNumber(){
+            UPGRADE_COST.value = "업그레이드 비용: " + UpgradeCost.toLocaleString('ko-KR') + "골드";
+        }
+
+        function MakeCostNumber(){
+            MAKE_COST.value = "분해 후 제작 비용: " + MakeCost.toLocaleString('ko-KR') + "골드";
+        }
+
+        function ShowProbability(){
+            let ProbabilityNumber = document.getElementsByClassName("Probability")[0];
+            ProbabilityNumber.innerText = "업그레이드 확률: " + QualityProbability[QualityValue.value+1][1] + "%";
+        }
+
+        function ChangeColor(){
+            if (QualityValue.value < 10){
+                document.body.style.transitionProperty = 'background-color';
+                document.body.style.backgroundColor = 'brown';
+                document.body.style.transitionDuration = "1s";
+            }
+            else if (QualityValue.value < 30){
+                document.body.style.transitionProperty = 'background-color';
+                document.body.style.backgroundColor = '#f4fd06';
+                document.body.style.transitionDuration = "1s";
+            }
+            else if (QualityValue.value < 70){
+                document.body.style.transitionProperty = 'background-color';
+                document.body.style.backgroundColor = '#7cce0c';
+                document.body.style.transitionDuration = "1s";
+            }
+            else if (QualityValue.value < 90){
+                document.body.style.transitionProperty = 'background-color';
+                document.body.style.backgroundColor = '#38acc5';
+                document.body.style.transitionDuration = "1s";
+            }
+            else if (QualityValue.value < 100){
+                document.body.style.transitionProperty = 'background-color';
+                document.body.style.backgroundColor = '#b00ce6';
+                document.body.style.transitionDuration = "1s";
+            }
+            else{
+                document.body.style.transitionProperty = 'background-color';
+                document.body.style.backgroundColor = '#e87828';
+                document.body.style.transitionDuration = "1s";
+            }
+        }
+
+        function ChangeQuality(x){
+            QualityValue.value = x;
+            QualityNum.innerText = x;
+            ShowProbability();
+            ChangeColor();
+        }
+
+        function FirstWeapon(){
+            if (!IfNotMake()){
+                alert("리셋 버튼을 눌러주셔야 작동합니다!")
+                return 0;
+            }
+            let FirstWeapon = prompt("현재 무기 품질, 혹은 원하는 무기 품질을 입력해주세요!");
+            if (FirstWeapon > 100){
+                alert("품질100 이상이신가요..?? 정말요...????")
+                return 0;
+            }
+            ChangeQuality(FirstWeapon);
+        }
+
+        function IfNotMake(){
+            return QualityNum.innerText === "??";
+        }
+
+        function MakeWeapon(){
+            if (IfNotMake()){
+                alert("먼저 '품질 설정' 버튼을 눌러주세요!!");
+                return 0;
+            }
+            let MakeWeapon = (Math.random()) * 100;
+            let WeaponQuality = 0;
+            for (let i = 0; i < 101; i++){
+                if (QualityProbability[i][1] < MakeWeapon){
+                    WeaponQuality = QualityProbability[i-1][0];
+                    break;
+                }
+            }
+            ChangeQuality(WeaponQuality);
+
+            TryNum++;
+            TryStone += 3;
+            MakeCost += 3000;
+            TryNumber();
+            TryStoneNumber();
+            MakeCostNumber();
+        }
+
+        function SuccessUpgrade(){
+            document.body.style.transitionProperty = 'background-color';
+            document.body.style.backgroundColor = 'dodgerblue';
+            document.body.style.transitionDuration = "1s";
+        }
+
+        function FailUpgrade(){
+            document.body.style.transitionProperty = 'background-color';
+            document.body.style.backgroundColor = 'brown';
+            document.body.style.transitionDuration = "1s";
+        }
+
+        function UpgradeWeapon(){
+            if (IfNotMake()){
+                alert("먼저 '품질 설정' 버튼을 눌러 주세요!\n\n" +
+                    "혹시 장비 품질이 0이시라면 '분해 후 제작' 버튼을 눌러주세요!\n" +
+                    "(품질0일 때 업그레이드 확률은 74.81%입니다)");
+                return 0;
+            }
+
+            let WeaponQuality2 = QualityValue.value;
+            let UpgradeWeapon = (Math.random()) * 100;
+            for (let i = WeaponQuality2 + 1; i < 101; i++){
+                if (QualityProbability[i][1] > UpgradeWeapon){
+                    WeaponQuality2 = QualityProbability[i-1][0];
+                }
+                else{
+                    break;
+                }
+            }
+
+            if(WeaponQuality2 !== QualityValue.value){
+                ChangeQuality(WeaponQuality2);
+                <!-- SuccessUpgrade(); -->
+            }
+            else{
+                <!-- FailUpgrade(); -->
+            }
+
+            TryNum++;
+            TryStone += 3;
+            UpgradeCost += 800;
+            TryNumber();
+            TryStoneNumber();
+            UpgradeCostNumber();
+        }
+
+        function Reset(){
+            document.body.style.transitionProperty = 'background-color';
+            document.body.style.backgroundColor = '#1f1f1f';
+            QualityValue.value = 0;
+            QualityNum.innerText = "??";
+            TryNum = 0;
+            TryStone = 0;
+            UpgradeCost = 0;
+            MakeCost  = 0;
+            TryNumber();
+            TryStoneNumber();
+            UpgradeCostNumber();
+            MakeCostNumber();
+        }
+    </script>
+
+</body>
+</html>
